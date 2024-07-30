@@ -6,9 +6,8 @@ import (
 	"testing"
 )
 
-func TestAccountGet(t *testing.T) {
-	req := client.NewAccountGet()
-	// req.QueryParams().IDs = []string{"97"}
+func TestAuthRequest(t *testing.T) {
+	req := client.NewAuthRequest()
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)

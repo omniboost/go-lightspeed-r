@@ -55,7 +55,9 @@ func (r *CategoriesGetAll) QueryParams() *CategoriesGetAllQueryParams {
 }
 
 func (r CategoriesGetAll) NewPathParams() *CategoriesGetAllPathParams {
-	return &CategoriesGetAllPathParams{}
+	return &CategoriesGetAllPathParams{
+		AccountID: r.client.accountID,
+	}
 }
 
 type CategoriesGetAllPathParams struct {
@@ -106,7 +108,7 @@ func (r *CategoriesGetAll) NewResponseBody() *CategoriesGetAllResponseBody {
 	return &CategoriesGetAllResponseBody{}
 }
 
-type CategoriesGetAllResponseBody Account
+type CategoriesGetAllResponseBody CategoriesResp
 
 func (r *CategoriesGetAll) URL() *url.URL {
 	u := r.client.GetEndpointURL("/API/V3/Account/{{.account_id}}/Category.json", r.PathParams())
@@ -130,34 +132,3 @@ func (r *CategoriesGetAll) Do() (CategoriesGetAllResponseBody, error) {
 	_, err = r.client.Do(req, responseBody)
 	return *responseBody, err
 }
-
-// func (r *CategoriesGetAll) All() (ProductsCategories, error) {
-// 	productsCategories := ProductsCategories{}
-
-// 	// Set page to 1
-// 	r.QueryParams().Page = 1
-
-// 	for {
-// 		resp, err := r.Do()
-// 		if err != nil {
-// 			return productsCategories, err
-// 		}
-
-// 		// Break out of loop when no activities are found
-// 		if len(resp.Data) == 0 {
-// 			break
-// 		}
-
-// 		// Add activities to list
-// 		productsCategories = append(productsCategories, resp.Data...)
-
-// 		if r.QueryParams().Page == resp.Page.TotalPages {
-// 			break
-// 		}
-
-// 		// Increment page number
-// 		r.QueryParams().Page = r.QueryParams().Page + 1
-// 	}
-
-// 	return productsCategories, nil
-// }

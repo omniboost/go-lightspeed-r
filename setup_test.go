@@ -1,7 +1,6 @@
 package lightspeed_r_test
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net/url"
@@ -9,7 +8,6 @@ import (
 	"testing"
 
 	lightspeed_r "github.com/omniboost/go-lightspeed-r"
-	"golang.org/x/oauth2"
 )
 
 var (
@@ -21,36 +19,49 @@ func TestMain(m *testing.M) {
 	clientID := os.Getenv("LIGHTSPEED_CLIENT_ID")
 	clientSecret := os.Getenv("LIGHTSPEED_CLIENT_SECRET")
 	refreshToken := os.Getenv("LIGHTSPEED_REFRESH_TOKEN")
-	tokenURL := os.Getenv("LIGHTSPEED_TOKEN_URL")
+	authURLString := os.Getenv("LIGHTSPEED_AUTH_URL")
 	debug := os.Getenv("DEBUG")
 
 	oauthConfig := lightspeed_r.NewOauth2Config()
 	oauthConfig.ClientID = clientID
 	oauthConfig.ClientSecret = clientSecret
 
-	if tokenURL != "" {
-		oauthConfig.Endpoint.TokenURL = tokenURL
-	}
+	// if tokenURL != "" {
+	// 	oauthConfig.Endpoint.TokenURL = tokenURL
+	// }
 
-	getAccessToken, err := lightspeed_r.GetBerearToken(clientID, clientSecret, refreshToken, oauthConfig.Endpoint.TokenURL)
-	if err != nil {
-		fmt.Println(err)
-	}
+	// accessToken, err := client.BearerToken()
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
-	tokenString := fmt.Sprintf("AccessToken: %s\nTokenType: %s\nRefreshToken: %s\nExpiry: %v\n",
-		getAccessToken.AccessToken, getAccessToken.TokenType, getAccessToken.RefreshToken, getAccessToken.ExpiresIn)
+	// tokenString := fmt.Sprintf("AccessToken: %s\n",
+	// 	accessToken)
 
-	fmt.Println(tokenString)
+	// fmt.Println(tokenString)
 
-	token := &oauth2.Token{
-		RefreshToken: refreshToken,
-		AccessToken:  getAccessToken.AccessToken,
-	}
+	// getAccessToken, err := lightspeed_r.GetBerearToken(clientID, clientSecret, refreshToken, oauthConfig.Endpoint.TokenURL)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
-	httpClient := oauthConfig.Client(context.Background(), token)
+	// tokenString := fmt.Sprintf("AccessToken: %s\nTokenType: %s\nRefreshToken: %s\nExpiry: %v\n",
+	// 	getAccessToken.AccessToken, getAccessToken.TokenType, getAccessToken.RefreshToken, getAccessToken.ExpiresIn)
 
-	client = lightspeed_r.NewClient(httpClient)
-	// client.SetToken(token)
+	// fmt.Println(tokenString)
+
+	// token := &oauth2.Token{
+	// 	RefreshToken: refreshToken,
+	// 	AccessToken:  getAccessToken.AccessToken,
+	// }
+
+	// httpClient := oauthConfig.Client(context.Background(), token)
+
+	client = lightspeed_r.NewClient(nil)
+	client.SetClientID(clientID)
+	client.SetClientSecret(clientSecret)
+	client.SetRefreshToken(refreshToken)
+
 	if debug != "" {
 		client.SetDebug(true)
 	}
@@ -63,11 +74,29 @@ func TestMain(m *testing.M) {
 		client.SetBaseURL(*baseURL)
 	}
 
-	resp, err := client.GetAccountId()
+	if authURLString != "" {
+		authURL, err := url.Parse(authURLString)
+		if err != nil {
+			log.Fatal(err)
+		}
+		client.SetAuthURL(*authURL)
+	}
+
+	accessToken, err := client.GetBearerToken()
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	fmt.Printf("AccountID: %v\n", resp)
+	tokenString := fmt.Sprintf("AccessToken: %s\n",
+		accessToken)
+
+	fmt.Println(tokenString)
+
+	accountID, err := client.GetAccountID()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Printf("AccountID: %v\n", accountID)
 	m.Run()
 }

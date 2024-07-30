@@ -39,6 +39,25 @@ func NewClient(httpClient *http.Client) *Client {
 		httpClient = http.DefaultClient
 	}
 
+	// oauthConfig := lightspeed_r.NewOauth2Config()
+	// oauthConfig.ClientID = clientID
+	// oauthConfig.ClientSecret = clientSecret
+
+	// accessToken, err :=
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+
+	// tokenString := fmt.Sprintf("AccessToken: %s\n",
+	// 	accessToken)
+
+	// fmt.Println(tokenString)
+
+	// token := &oauth2.Token{
+	// 	RefreshToken: refreshToken,
+	// 	AccessToken:  accessToken,
+	// }
+
 	client := &Client{}
 
 	client.SetHTTPClient(httpClient)
@@ -48,9 +67,9 @@ func NewClient(httpClient *http.Client) *Client {
 	client.SetMediaType(mediaType)
 	client.SetCharset(charset)
 
-	if err := client.SetAccountID(); err != nil {
-		return nil
-	}
+	// if err := client.SetAccountID(); err != nil {
+	// 	return nil
+	// }
 
 	return client
 }
@@ -62,10 +81,14 @@ type Client struct {
 
 	debug   bool
 	baseURL url.URL
+	authURL url.URL
 
 	// credentials
-	accessToken string
-	accountID   string
+	refreshToken string
+	clientSecret string
+	clientID     string
+	accessToken  string
+	accountID    int
 
 	// User agent for client
 	userAgent string
@@ -114,6 +137,14 @@ func (c *Client) SetBaseURL(baseURL url.URL) {
 	c.baseURL = baseURL
 }
 
+func (c Client) AuthURL() url.URL {
+	return c.authURL
+}
+
+func (c *Client) SetAuthURL(authURL url.URL) {
+	c.authURL = authURL
+}
+
 func (c *Client) SetMediaType(mediaType string) {
 	c.mediaType = mediaType
 }
@@ -146,20 +177,96 @@ func (c *Client) SetBeforeRequestDo(fun BeforeRequestDoCallback) {
 	c.beforeRequestDo = fun
 }
 
-// func (c *Client) GetAccountId() string {
-// 	return c.accountID
-// }
+func (c Client) ClientID() string {
+	return c.clientID
+}
 
-func (c *Client) GetAccountId() (int, error) {
-	accountID, err := strconv.Atoi(c.accountID)
+func (c *Client) SetClientID(clientID string) {
+	c.clientID = clientID
+}
+
+func (c Client) ClientSecret() string {
+	return c.clientSecret
+}
+
+func (c *Client) SetClientSecret(clientSecret string) {
+	c.clientSecret = clientSecret
+}
+
+func (c Client) RefreshToken() string {
+	return c.refreshToken
+}
+
+func (c *Client) SetRefreshToken(refreshToken string) {
+	c.refreshToken = refreshToken
+}
+
+func (c Client) AccountID() int {
+	return c.accountID
+}
+
+func (c *Client) SetAccountID(accountID int) {
+	c.accountID = accountID
+}
+
+func (c *Client) GetBearerToken() (string, error) {
+	if c.accessToken == "" {
+		var err error
+		c.accessToken, err = c.NewBearerToken()
+		if err != nil {
+			return "", err
+		}
+	}
+
+	return c.accessToken, nil
+}
+
+func (c *Client) NewBearerToken() (string, error) {
+	req := c.NewAuthRequest()
+
+	resp, err := req.Do()
+	if err != nil {
+		return "", err
+	}
+
+	return resp.AccessToken, nil
+}
+
+func (c *Client) GetAccountID() (int, error) {
+	if c.accountID == 0 {
+		var err error
+		c.accountID, err = c.NewAccountID()
+		if err != nil {
+			return 0, err
+		}
+	}
+
+	return c.accountID, nil
+	// accountID, err := strconv.Atoi(c.accountID)
+	// if err != nil {
+	// 	return 0, err
+	// }
+	// return accountID, nil
+}
+
+func (c *Client) NewAccountID() (int, error) {
+	req := c.NewAccountGet()
+
+	resp, err := req.Do()
 	if err != nil {
 		return 0, err
 	}
+
+	accountID, err := strconv.Atoi(resp.Account.AccountID)
+	if err != nil {
+		return 0, err
+	}
+
 	return accountID, nil
 }
 
-func (c *Client) GetEndpointURL(p string, pathParams PathParams) url.URL {
-	clientURL := c.BaseURL()
+func (c *Client) GetURL(baseUrl url.URL, p string, pathParams PathParams) url.URL {
+	clientURL := baseUrl
 
 	parsed, err := url.Parse(p)
 	if err != nil {
@@ -192,18 +299,34 @@ func (c *Client) GetEndpointURL(p string, pathParams PathParams) url.URL {
 	return clientURL
 }
 
+func (c *Client) GetEndpointURL(p string, pathParams PathParams) url.URL {
+	return c.GetURL(c.BaseURL(), p, pathParams)
+}
+
+func (c *Client) GetAuthEndpointURL(p string, pathParams PathParams) url.URL {
+	return c.GetURL(c.AuthURL(), p, pathParams)
+}
+
 func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, error) {
 	// convert body struct to json
-	buf := new(bytes.Buffer)
+	var body io.Reader
 	if req.RequestBodyInterface() != nil {
-		err := json.NewEncoder(buf).Encode(req.RequestBodyInterface())
-		if err != nil {
-			return nil, err
+		if r, ok := req.RequestBodyInterface().(io.Reader); ok {
+			body = r
+		} else if bb, ok := req.RequestBodyInterface().([]byte); ok {
+			body = bytes.NewReader(bb)
+		} else {
+			buf := new(bytes.Buffer)
+			err := json.NewEncoder(buf).Encode(req.RequestBodyInterface())
+			if err != nil {
+				return nil, err
+			}
+			body = buf
 		}
 	}
 
 	// create new http request
-	r, err := http.NewRequest(req.Method(), req.URL().String(), buf)
+	r, err := http.NewRequest(req.Method(), req.URL().String(), body)
 	if err != nil {
 		return nil, err
 	}

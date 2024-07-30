@@ -124,3 +124,10 @@ func (f *StringInt) UnmarshalJSON(text []byte) (err error) {
 	*f = StringInt(integer)
 	return nil
 }
+
+type LoadRelations []string
+
+func (lr LoadRelations) MarshalSchema() string {
+	loadRelationsJSON, _ := json.Marshal(lr)
+	return string(loadRelationsJSON)
+}

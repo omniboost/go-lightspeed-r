@@ -3,17 +3,10 @@ package lightspeed_r
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 )
-
-type BearerToken struct {
-	AccessToken  string `json:"access_token"`
-	ExpiresIn    int    `json:"expires_in"`
-	RefreshToken string `json:"refresh_token"`
-	Scope        string `json:"scope"`
-	TokenType    string `json:"token_type"`
-}
 
 func GetBerearToken(clientID, clientSecret, refreshToken, tokenURL string) (*BearerToken, error) {
 	q := url.Values{}
@@ -26,6 +19,8 @@ func GetBerearToken(clientID, clientSecret, refreshToken, tokenURL string) (*Bea
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Println(bytes.NewBufferString(q.Encode()))
 
 	req.Header.Set("accept", "application/json")
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")

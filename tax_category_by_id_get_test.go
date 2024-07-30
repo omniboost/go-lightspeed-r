@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-func TestAccountGet(t *testing.T) {
-	req := client.NewAccountGet()
-	// req.QueryParams().IDs = []string{"97"}
+func TestTaxCategoryByIdGet(t *testing.T) {
+	req := client.NewTaxCategoryByIdGet()
+	req.PathParams().TaxCategoryID = 15
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)

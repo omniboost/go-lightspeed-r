@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-func TestAccountGet(t *testing.T) {
-	req := client.NewAccountGet()
-	// req.QueryParams().IDs = []string{"97"}
+func TestPaymentTypeByIdGet(t *testing.T) {
+	req := client.NewPaymentTypeByIdGet()
+	req.PathParams().PaymentTypeID = 57
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)

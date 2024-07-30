@@ -101,7 +101,7 @@ func (r *AccountGet) NewResponseBody() *AccountGetResponseBody {
 	return &AccountGetResponseBody{}
 }
 
-type AccountGetResponseBody Account
+type AccountGetResponseBody AccountResp
 
 func (r *AccountGet) URL() *url.URL {
 	u := r.client.GetEndpointURL("/API/V3/Account.json", r.PathParams())
@@ -126,47 +126,3 @@ func (r *AccountGet) Do() (AccountGetResponseBody, error) {
 
 	return *responseBody, err
 }
-
-func (c *Client) SetAccountID() error {
-	accountGet := c.NewAccountGet()
-
-	resp, err := accountGet.Do()
-	if err != nil {
-		return err
-	}
-
-	c.accountID = resp.Account.AccountID
-
-	return nil
-}
-
-// func (r *AccountGet) All() (ProductsCategories, error) {
-// 	productsCategories := ProductsCategories{}
-
-// 	// Set page to 1
-// 	r.QueryParams().Page = 1
-
-// 	for {
-// 		resp, err := r.Do()
-// 		if err != nil {
-// 			return productsCategories, err
-// 		}
-
-// 		// Break out of loop when no activities are found
-// 		if len(resp.Data) == 0 {
-// 			break
-// 		}
-
-// 		// Add activities to list
-// 		productsCategories = append(productsCategories, resp.Data...)
-
-// 		if r.QueryParams().Page == resp.Page.TotalPages {
-// 			break
-// 		}
-
-// 		// Increment page number
-// 		r.QueryParams().Page = r.QueryParams().Page + 1
-// 	}
-
-// 	return productsCategories, nil
-// }
