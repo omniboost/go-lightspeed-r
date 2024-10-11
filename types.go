@@ -350,6 +350,7 @@ type Sale struct {
 	IsTaxInclusive        string         `json:"isTaxInclusive,omitempty"`
 	CreateTime            string         `json:"createTime,omitempty"`
 	UpdateTime            string         `json:"updateTime,omitempty"`
+	CompleteTime          string         `json:"completeTime,omitempty"`
 	ReferenceNumber       string         `json:"referenceNumber,omitempty"`
 	ReferenceNumberSource string         `json:"referenceNumberSource,omitempty"`
 	Tax1Rate              string         `json:"tax1Rate,omitempty"`
