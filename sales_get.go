@@ -41,6 +41,10 @@ func (r SalesGet) NewQueryParams() *SalesGetQueryParams {
 type SalesGetQueryParams struct {
 	LoadRelations LoadRelations `schema:"load_relations,omitempty"`
 	Sort          string        `schema:"sort,omitempty"`
+
+	// https://developers.lightspeedhq.com/retail/introduction/parameters/
+	CompleteTime string `schema:"completeTime,omitempty"`
+	CreateTime   string `schema:"createTime,omitempty"`
 }
 
 func (p SalesGetQueryParams) ToURLValues() (url.Values, error) {

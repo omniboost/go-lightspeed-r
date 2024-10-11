@@ -25,6 +25,7 @@ func TestSalesGet(t *testing.T) {
 		string(lightspeed_r.LoadRelationTaxCategory),
 		string(lightspeed_r.LoadRelationTaxCategoryTaxCategoryClasses),
 	}
+	req.QueryParams().CompleteTime = "><,2024-10-10T00:00:00,2024-10-11T00:00:00"
 	resp, err := req.Do()
 	if err != nil {
 		t.Error(err)
