@@ -135,7 +135,7 @@ type BearerToken struct {
 
 type SalesResp struct {
 	Attributes Attributes `json:"@attributes"`
-	Sale       []Sale     `json:"Sale"`
+	Sale       Sales      `json:"Sale"`
 }
 
 type TaxCategoryClass struct {
@@ -319,6 +319,24 @@ type Customer struct {
 	TaxCategoryID             string  `json:"taxCategoryID,omitempty"`
 	MeasurementID             string  `json:"measurementID,omitempty"`
 	Contact                   Contact `json:"Contact,omitempty"`
+}
+
+type Sales []Sale
+
+func (s *Sales) UnmarshalJSON(data []byte) error {
+	// if the json doesn't start with an '[', force it to be an array
+	if data[0] != '[' {
+		data = []byte("[" + string(data) + "]")
+	}
+
+	ss := []Sale{}
+	err := json.Unmarshal(data, &ss)
+	if err != nil {
+		return err
+	}
+
+	*s = ss
+	return nil
 }
 
 type Sale struct {
