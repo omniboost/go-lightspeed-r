@@ -314,26 +314,26 @@ type Contact struct {
 }
 
 type Customer struct {
-	CustomerID                string    `json:"CustomerID,omitempty"`
-	FirstName                 string    `json:"FirstName,omitempty"`
-	LastName                  string    `json:"LastName,omitempty"`
-	Dob                       string    `json:"Dob,omitempty"`
-	Archived                  string    `json:"Archived,omitempty"`
-	Title                     string    `json:"Title,omitempty"`
-	Company                   string    `json:"Company,omitempty"`
-	CompanyRegistrationNumber string    `json:"CompanyRegistrationNumber,omitempty"`
-	VatNumber                 string    `json:"VatNumber,omitempty"`
-	CreateTime                time.Time `json:"CreateTime,omitempty"`
-	TimeStamp                 time.Time `json:"TimeStamp,omitempty"`
-	ContactID                 string    `json:"ContactID,omitempty"`
-	CreditAccountID           string    `json:"CreditAccountID,omitempty"`
-	CustomerTypeID            string    `json:"CustomerTypeID,omitempty"`
-	DiscountID                string    `json:"CiscountID,omitempty"`
-	EmployeeID                string    `json:"EmployeeID,omitempty"`
-	NoteID                    string    `json:"NoteID,omitempty"`
-	TaxCategoryID             string    `json:"TaxCategoryID,omitempty"`
-	MeasurementID             string    `json:"MeasurementID,omitempty"`
-	Contact                   Contact   `json:"Contact,omitempty"`
+	CustomerID                string    `json:"customerID,omitempty"`
+	FirstName                 string    `json:"firstName,omitempty"`
+	LastName                  string    `json:"lastName,omitempty"`
+	Dob                       string    `json:"dob,omitempty"`
+	Archived                  string    `json:"archived,omitempty"`
+	Title                     string    `json:"title,omitempty"`
+	Company                   string    `json:"company,omitempty"`
+	CompanyRegistrationNumber string    `json:"companyRegistrationNumber,omitempty"`
+	VatNumber                 string    `json:"vatNumber,omitempty"`
+	CreateTime                time.Time `json:"createTime,omitempty"`
+	TimeStamp                 time.Time `json:"timeStamp,omitempty"`
+	ContactID                 string    `json:"contactID,omitempty"`
+	CreditAccountID           string    `json:"creditAccountID,omitempty"`
+	CustomerTypeID            string    `json:"customerTypeID,omitempty"`
+	DiscountID                string    `json:"ciscountID,omitempty"`
+	EmployeeID                string    `json:"employeeID,omitempty"`
+	NoteID                    string    `json:"noteID,omitempty"`
+	TaxCategoryID             string    `json:"taxCategoryID,omitempty"`
+	MeasurementID             string    `json:"measurementID,omitempty"`
+	Contact                   Contact   `json:"contact,omitempty"`
 }
 
 type Sales []Sale
@@ -439,44 +439,8 @@ type Sale struct {
 		SaleLine SaleLines `json:"SaleLine,omitempty"`
 	} `json:"SaleLines,omitempty"`
 	TaxClassTotals TaxClassTotals `json:"TaxClassTotals,omitempty"`
-	Customer       struct {
-		CustomerID                string    `json:"customerID"`
-		FirstName                 string    `json:"firstName"`
-		LastName                  string    `json:"lastName"`
-		Archived                  string    `json:"archived"`
-		Title                     string    `json:"title"`
-		Company                   string    `json:"company"`
-		CompanyRegistrationNumber string    `json:"companyRegistrationNumber"`
-		VatNumber                 string    `json:"vatNumber"`
-		CreateTime                time.Time `json:"createTime"`
-		TimeStamp                 time.Time `json:"timeStamp"`
-		ContactID                 string    `json:"contactID"`
-		CreditAccountID           string    `json:"creditAccountID"`
-		CustomerTypeID            string    `json:"customerTypeID"`
-		DiscountID                string    `json:"discountID"`
-		EmployeeID                string    `json:"employeeID"`
-		NoteID                    string    `json:"noteID"`
-		TaxCategoryID             string    `json:"taxCategoryID"`
-		MeasurementID             string    `json:"measurementID"`
-		Contact                   struct {
-			ContactID string    `json:"contactID"`
-			Custom    string    `json:"custom"`
-			NoEmail   string    `json:"noEmail"`
-			NoPhone   string    `json:"noPhone"`
-			NoMail    string    `json:"noMail"`
-			TimeStamp time.Time `json:"timeStamp"`
-			Addresses string    `json:"Addresses"`
-			Phones    string    `json:"Phones"`
-			Emails    struct {
-				ContactEmail struct {
-					Address string `json:"address"`
-					UseType string `json:"useType"`
-				} `json:"ContactEmail"`
-			} `json:"Emails"`
-			Websites string `json:"Websites"`
-		} `json:"Contact"`
-	} `json:"Customer"`
-	SalePayments struct {
+	Customer       Customer       `json:"customer,omitempty"`
+	SalePayments   struct {
 		SalePayment SalePayments `json:"salePayment,omitempty"`
 	} `json:"salePayments,omitempty"`
 }
