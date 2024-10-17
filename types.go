@@ -2,7 +2,6 @@ package lightspeed_r
 
 import (
 	"encoding/json"
-	"fmt"
 	"time"
 )
 
@@ -242,24 +241,22 @@ type SaleLine struct {
 	TaxClass                TaxClass  `json:"TaxClass,omitempty"`
 	Item                    Item      `json:"Item,omitempty"`
 }
-type SaleLines struct {
-	SaleLine []SaleLine `json:"SaleLine,omitempty"`
-}
+type SaleLines []SaleLine
 
 func (s *SaleLines) UnmarshalJSON(data []byte) error {
-	var single SaleLine
-	if err := json.Unmarshal(data, &single); err == nil {
-		s.SaleLine = []SaleLine{single}
-		return nil
+	// if the json doesn't start with an '[', force it to be an array
+	if data[0] != '[' {
+		data = []byte("[" + string(data) + "]")
 	}
 
-	var multiple []SaleLine
-	if err := json.Unmarshal(data, &multiple); err == nil {
-		s.SaleLine = multiple
-		return nil
+	ss := []SaleLine{}
+	err := json.Unmarshal(data, &ss)
+	if err != nil {
+		return err
 	}
 
-	return fmt.Errorf("failed to unmarshal salelines (saleline array)")
+	*s = ss
+	return nil
 }
 
 type Tax struct {
@@ -394,54 +391,56 @@ func (s *SalePayments) UnmarshalJSON(data []byte) error {
 }
 
 type Sale struct {
-	SaleID                StringInt      `json:"saleID,omitempty"`
-	TimeStamp             time.Time      `json:"timeStamp,omitempty"`
-	DiscountPercent       string         `json:"discountPercent,omitempty"`
-	Completed             string         `json:"completed,omitempty"`
-	Archived              string         `json:"archived,omitempty"`
-	Voided                string         `json:"voided,omitempty"`
-	EnablePromotions      string         `json:"enablePromotions,omitempty"`
-	IsTaxInclusive        string         `json:"isTaxInclusive,omitempty"`
-	CreateTime            time.Time      `json:"createTime,omitempty"`
-	UpdateTime            time.Time      `json:"updateTime,omitempty"`
-	CompleteTime          time.Time      `json:"completeTime,omitempty"`
-	ReferenceNumber       string         `json:"referenceNumber,omitempty"`
-	ReferenceNumberSource string         `json:"referenceNumberSource,omitempty"`
-	Tax1Rate              string         `json:"tax1Rate,omitempty"`
-	Tax2Rate              string         `json:"tax2Rate,omitempty"`
-	Change                string         `json:"change,omitempty"`
-	ReceiptPreference     string         `json:"receiptPreference,omitempty"`
-	DisplayableSubtotal   string         `json:"displayableSubtotal,omitempty"`
-	TicketNumber          string         `json:"ticketNumber,omitempty"`
-	CalcDiscount          string         `json:"calcDiscount,omitempty"`
-	CalcTotal             string         `json:"calcTotal,omitempty"`
-	CalcSubtotal          string         `json:"calcSubtotal,omitempty"`
-	CalcTaxable           string         `json:"calcTaxable,omitempty"`
-	CalcNonTaxable        string         `json:"calcNonTaxable,omitempty"`
-	CalcAvgCost           string         `json:"calcAvgCost,omitempty"`
-	CalcFIFOCost          string         `json:"calcFIFOCost,omitempty"`
-	CalcTax1              string         `json:"calcTax1,omitempty"`
-	CalcTax2              string         `json:"calcTax2,omitempty"`
-	CalcPayments          string         `json:"calcPayments,omitempty"`
-	CalcItemFees          string         `json:"calcItemFees,omitempty"`
-	Total                 string         `json:"total,omitempty"`
-	TotalDue              string         `json:"totalDue,omitempty"`
-	DisplayableTotal      string         `json:"displayableTotal,omitempty"`
-	Balance               string         `json:"balance,omitempty"`
-	CustomerID            string         `json:"customerID,omitempty"`
-	DiscountID            string         `json:"discountID,omitempty"`
-	EmployeeID            string         `json:"employeeID,omitempty"`
-	QuoteID               string         `json:"quoteID,omitempty"`
-	RegisterID            string         `json:"registerID,omitempty"`
-	ShipToID              string         `json:"shipToID,omitempty"`
-	ShopID                string         `json:"shopID,omitempty"`
-	TaxCategoryID         string         `json:"taxCategoryID,omitempty"`
-	TaxCategory           TaxCategory    `json:"TaxCategory,omitempty"`
-	TaxTotal              string         `json:"taxTotal,omitempty"`
-	SaleLines             SaleLines      `json:"SaleLines,omitempty"`
-	TaxClassTotals        TaxClassTotals `json:"TaxClassTotals,omitempty"`
-	Customer              Customer       `json:"Customer,omitempty"`
-	SalePayments          struct {
+	SaleID                StringInt   `json:"saleID,omitempty"`
+	TimeStamp             time.Time   `json:"timeStamp,omitempty"`
+	DiscountPercent       string      `json:"discountPercent,omitempty"`
+	Completed             string      `json:"completed,omitempty"`
+	Archived              string      `json:"archived,omitempty"`
+	Voided                string      `json:"voided,omitempty"`
+	EnablePromotions      string      `json:"enablePromotions,omitempty"`
+	IsTaxInclusive        string      `json:"isTaxInclusive,omitempty"`
+	CreateTime            time.Time   `json:"createTime,omitempty"`
+	UpdateTime            time.Time   `json:"updateTime,omitempty"`
+	CompleteTime          time.Time   `json:"completeTime,omitempty"`
+	ReferenceNumber       string      `json:"referenceNumber,omitempty"`
+	ReferenceNumberSource string      `json:"referenceNumberSource,omitempty"`
+	Tax1Rate              string      `json:"tax1Rate,omitempty"`
+	Tax2Rate              string      `json:"tax2Rate,omitempty"`
+	Change                string      `json:"change,omitempty"`
+	ReceiptPreference     string      `json:"receiptPreference,omitempty"`
+	DisplayableSubtotal   string      `json:"displayableSubtotal,omitempty"`
+	TicketNumber          string      `json:"ticketNumber,omitempty"`
+	CalcDiscount          string      `json:"calcDiscount,omitempty"`
+	CalcTotal             string      `json:"calcTotal,omitempty"`
+	CalcSubtotal          string      `json:"calcSubtotal,omitempty"`
+	CalcTaxable           string      `json:"calcTaxable,omitempty"`
+	CalcNonTaxable        string      `json:"calcNonTaxable,omitempty"`
+	CalcAvgCost           string      `json:"calcAvgCost,omitempty"`
+	CalcFIFOCost          string      `json:"calcFIFOCost,omitempty"`
+	CalcTax1              string      `json:"calcTax1,omitempty"`
+	CalcTax2              string      `json:"calcTax2,omitempty"`
+	CalcPayments          string      `json:"calcPayments,omitempty"`
+	CalcItemFees          string      `json:"calcItemFees,omitempty"`
+	Total                 string      `json:"total,omitempty"`
+	TotalDue              string      `json:"totalDue,omitempty"`
+	DisplayableTotal      string      `json:"displayableTotal,omitempty"`
+	Balance               string      `json:"balance,omitempty"`
+	CustomerID            string      `json:"customerID,omitempty"`
+	DiscountID            string      `json:"discountID,omitempty"`
+	EmployeeID            string      `json:"employeeID,omitempty"`
+	QuoteID               string      `json:"quoteID,omitempty"`
+	RegisterID            string      `json:"registerID,omitempty"`
+	ShipToID              string      `json:"shipToID,omitempty"`
+	ShopID                string      `json:"shopID,omitempty"`
+	TaxCategoryID         string      `json:"taxCategoryID,omitempty"`
+	TaxCategory           TaxCategory `json:"TaxCategory,omitempty"`
+	TaxTotal              string      `json:"taxTotal,omitempty"`
+	SaleLines             struct {
+		SaleLine SaleLines `json:"SaleLine,omitempty"`
+	} `json:"SaleLines,omitempty"`
+	TaxClassTotals TaxClassTotals `json:"TaxClassTotals,omitempty"`
+	Customer       Customer       `json:"Customer,omitempty"`
+	SalePayments   struct {
 		SalePayment SalePayments `json:"salePayment,omitempty"`
 	} `json:"salePayments,omitempty"`
 }
