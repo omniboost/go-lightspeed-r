@@ -439,8 +439,44 @@ type Sale struct {
 		SaleLine SaleLines `json:"SaleLine,omitempty"`
 	} `json:"SaleLines,omitempty"`
 	TaxClassTotals TaxClassTotals `json:"TaxClassTotals,omitempty"`
-	Customer       Customer       `json:"Customer"`
-	SalePayments   struct {
+	Customer       struct {
+		CustomerID                string    `json:"customerID"`
+		FirstName                 string    `json:"firstName"`
+		LastName                  string    `json:"lastName"`
+		Archived                  string    `json:"archived"`
+		Title                     string    `json:"title"`
+		Company                   string    `json:"company"`
+		CompanyRegistrationNumber string    `json:"companyRegistrationNumber"`
+		VatNumber                 string    `json:"vatNumber"`
+		CreateTime                time.Time `json:"createTime"`
+		TimeStamp                 time.Time `json:"timeStamp"`
+		ContactID                 string    `json:"contactID"`
+		CreditAccountID           string    `json:"creditAccountID"`
+		CustomerTypeID            string    `json:"customerTypeID"`
+		DiscountID                string    `json:"discountID"`
+		EmployeeID                string    `json:"employeeID"`
+		NoteID                    string    `json:"noteID"`
+		TaxCategoryID             string    `json:"taxCategoryID"`
+		MeasurementID             string    `json:"measurementID"`
+		Contact                   struct {
+			ContactID string    `json:"contactID"`
+			Custom    string    `json:"custom"`
+			NoEmail   string    `json:"noEmail"`
+			NoPhone   string    `json:"noPhone"`
+			NoMail    string    `json:"noMail"`
+			TimeStamp time.Time `json:"timeStamp"`
+			Addresses string    `json:"Addresses"`
+			Phones    string    `json:"Phones"`
+			Emails    struct {
+				ContactEmail struct {
+					Address string `json:"address"`
+					UseType string `json:"useType"`
+				} `json:"ContactEmail"`
+			} `json:"Emails"`
+			Websites string `json:"Websites"`
+		} `json:"Contact"`
+	} `json:"Customer"`
+	SalePayments struct {
 		SalePayment SalePayments `json:"salePayment,omitempty"`
 	} `json:"salePayments,omitempty"`
 }
