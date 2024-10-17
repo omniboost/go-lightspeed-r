@@ -439,8 +439,10 @@ type Sale struct {
 		SaleLine SaleLines `json:"SaleLine,omitempty"`
 	} `json:"SaleLines,omitempty"`
 	TaxClassTotals TaxClassTotals `json:"TaxClassTotals,omitempty"`
-	Customer       Customer       `json:"Customer,omitempty"`
-	SalePayments   struct {
+	Customer       struct {
+		Customer Customer `json:"Customer,omitempty"`
+	} `json:"Customer,omitempty"`
+	SalePayments struct {
 		SalePayment SalePayments `json:"salePayment,omitempty"`
 	} `json:"salePayments,omitempty"`
 }
