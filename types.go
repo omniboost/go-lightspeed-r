@@ -378,6 +378,22 @@ type SalePayments struct {
 	SalePayment []SalePayment `json:"SalePayment,omitempty"`
 }
 
+func (s *SalePayments) UnmarshalJSON(data []byte) error {
+	var single SalePayment
+	if err := json.Unmarshal(data, &single); err == nil {
+		s.SalePayment = []SalePayment{single}
+		return nil
+	}
+
+	var multiple []SalePayment
+	if err := json.Unmarshal(data, &multiple); err == nil {
+		s.SalePayment = multiple
+		return nil
+	}
+
+	return fmt.Errorf("failed to unmarshal SalePayments (SalePayment array)")
+}
+
 type Sale struct {
 	SaleID                StringInt      `json:"saleID,omitempty"`
 	TimeStamp             time.Time      `json:"timeStamp,omitempty"`
