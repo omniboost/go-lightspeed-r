@@ -100,14 +100,16 @@ type TaxCategoryResp struct {
 }
 
 type TaxCategory struct {
-	TaxCategoryID      string             `json:"taxCategoryID,omitempty"`
-	IsTaxInclusive     string             `json:"isTaxInclusive,omitempty"`
-	Tax1Name           string             `json:"tax1Name,omitempty"`
-	Tax2Name           string             `json:"tax2Name,omitempty"`
-	Tax1Rate           string             `json:"tax1Rate,omitempty"`
-	Tax2Rate           string             `json:"tax2Rate,omitempty"`
-	TimeStamp          time.Time          `json:"timeStamp,omitempty"`
-	TaxCategoryClasses TaxCategoryClasses `json:"TaxCategoryClasses,omitempty"`
+	TaxCategoryID      string    `json:"taxCategoryID,omitempty"`
+	IsTaxInclusive     string    `json:"isTaxInclusive,omitempty"`
+	Tax1Name           string    `json:"tax1Name,omitempty"`
+	Tax2Name           string    `json:"tax2Name,omitempty"`
+	Tax1Rate           string    `json:"tax1Rate,omitempty"`
+	Tax2Rate           string    `json:"tax2Rate,omitempty"`
+	TimeStamp          time.Time `json:"timeStamp,omitempty"`
+	TaxCategoryClasses struct {
+		TaxCategoryClass TaxCategoryClasses `json:"TaxCategoryClass,omitempty"`
+	} `json:"TaxCategoryClasses,omitempty"`
 }
 
 type TaxClassesResp struct {
@@ -147,24 +149,23 @@ type TaxCategoryClass struct {
 	TaxCategoryID      string    `json:"taxCategoryID,omitempty"`
 	TaxClassID         string    `json:"taxClassID,omitempty"`
 }
-type TaxCategoryClasses struct {
-	TaxCategoryClass []TaxCategoryClass `json:"TaxCategoryClass,omitempty"`
-}
+
+type TaxCategoryClasses []TaxCategoryClass
 
 func (s *TaxCategoryClasses) UnmarshalJSON(data []byte) error {
-	var single TaxCategoryClass
-	if err := json.Unmarshal(data, &single); err == nil {
-		s.TaxCategoryClass = []TaxCategoryClass{single}
-		return nil
+	// if the json doesn't start with an '[', force it to be an array
+	if data[0] != '[' {
+		data = []byte("[" + string(data) + "]")
 	}
 
-	var multiple []TaxCategoryClass
-	if err := json.Unmarshal(data, &multiple); err == nil {
-		s.TaxCategoryClass = multiple
-		return nil
+	ss := []TaxCategoryClass{}
+	err := json.Unmarshal(data, &ss)
+	if err != nil {
+		return err
 	}
 
-	return fmt.Errorf("failed to unmarshal TaxCategoryClasses (TaxCategoryClass array)")
+	*s = ss
+	return nil
 }
 
 type ItemPrice struct {
@@ -374,24 +375,22 @@ type SalePayment struct {
 	PaymentType     PaymentType `json:"PaymentType,omitempty"`
 }
 
-type SalePayments struct {
-	SalePayment []SalePayment `json:"SalePayment,omitempty"`
-}
+type SalePayments []SalePayment
 
 func (s *SalePayments) UnmarshalJSON(data []byte) error {
-	var single SalePayment
-	if err := json.Unmarshal(data, &single); err == nil {
-		s.SalePayment = []SalePayment{single}
-		return nil
+	// if the json doesn't start with an '[', force it to be an array
+	if data[0] != '[' {
+		data = []byte("[" + string(data) + "]")
 	}
 
-	var multiple []SalePayment
-	if err := json.Unmarshal(data, &multiple); err == nil {
-		s.SalePayment = multiple
-		return nil
+	ss := []SalePayment{}
+	err := json.Unmarshal(data, &ss)
+	if err != nil {
+		return err
 	}
 
-	return fmt.Errorf("failed to unmarshal SalePayments (SalePayment array)")
+	*s = ss
+	return nil
 }
 
 type Sale struct {
@@ -442,5 +441,7 @@ type Sale struct {
 	SaleLines             SaleLines      `json:"SaleLines,omitempty"`
 	TaxClassTotals        TaxClassTotals `json:"TaxClassTotals,omitempty"`
 	Customer              Customer       `json:"Customer,omitempty"`
-	SalePayments          SalePayments   `json:"salePayments,omitempty"`
+	SalePayments          struct {
+		SalePayment SalePayments `json:"salePayment,omitempty"`
+	} `json:"salePayments,omitempty"`
 }
