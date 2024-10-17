@@ -24,9 +24,9 @@ const (
 type LoadRelationType string
 
 type Attributes struct {
-	Next     string `json:"next"`
-	Previous string `json:"previous"`
-	Count    string `json:"count,omitempty"`
+	Next     string `json:"Next"`
+	Previous string `json:"Previous"`
+	Count    string `json:"Count,omitempty"`
 }
 
 type AccountResp struct {
@@ -35,8 +35,8 @@ type AccountResp struct {
 }
 
 type Account struct {
-	AccountID string `json:"accountID"`
-	Name      string `json:"name"`
+	AccountID string `json:"AccountID"`
+	Name      string `json:"Name"`
 	Link      struct {
 		Attributes struct {
 			Href string `json:"href"`
@@ -99,13 +99,13 @@ type TaxCategoryResp struct {
 }
 
 type TaxCategory struct {
-	TaxCategoryID      string    `json:"taxCategoryID,omitempty"`
-	IsTaxInclusive     string    `json:"isTaxInclusive,omitempty"`
-	Tax1Name           string    `json:"tax1Name,omitempty"`
-	Tax2Name           string    `json:"tax2Name,omitempty"`
-	Tax1Rate           string    `json:"tax1Rate,omitempty"`
-	Tax2Rate           string    `json:"tax2Rate,omitempty"`
-	TimeStamp          time.Time `json:"timeStamp,omitempty"`
+	TaxCategoryID      string    `json:"TaxCategoryID,omitempty"`
+	IsTaxInclusive     string    `json:"IsTaxInclusive,omitempty"`
+	Tax1Name           string    `json:"Tax1Name,omitempty"`
+	Tax2Name           string    `json:"Tax2Name,omitempty"`
+	Tax1Rate           string    `json:"Tax1Rate,omitempty"`
+	Tax2Rate           string    `json:"Tax2Rate,omitempty"`
+	TimeStamp          time.Time `json:"TimeStamp,omitempty"`
 	TaxCategoryClasses struct {
 		TaxCategoryClass TaxCategoryClasses `json:"TaxCategoryClass,omitempty"`
 	} `json:"TaxCategoryClasses,omitempty"`
@@ -122,9 +122,9 @@ type TaxClassResp struct {
 }
 
 type TaxClass struct {
-	TaxClassID string    `json:"taxClassID,omitempty"`
-	Name       string    `json:"name,omitempty"`
-	TimeStamp  time.Time `json:"timeStamp,omitempty"`
+	TaxClassID string    `json:"TaxClassID,omitempty"`
+	Name       string    `json:"Name,omitempty"`
+	TimeStamp  time.Time `json:"TimeStamp,omitempty"`
 }
 
 type BearerToken struct {
@@ -141,12 +141,12 @@ type SalesResp struct {
 }
 
 type TaxCategoryClass struct {
-	TaxCategoryClassID string    `json:"taxCategoryClassID,omitempty"`
-	Tax1Rate           string    `json:"tax1Rate,omitempty"`
-	Tax2Rate           string    `json:"tax2Rate,omitempty"`
-	TimeStamp          time.Time `json:"timeStamp,omitempty"`
-	TaxCategoryID      string    `json:"taxCategoryID,omitempty"`
-	TaxClassID         string    `json:"taxClassID,omitempty"`
+	TaxCategoryClassID string    `json:"TaxCategoryClassID,omitempty"`
+	Tax1Rate           string    `json:"Tax1Rate,omitempty"`
+	Tax2Rate           string    `json:"Tax2Rate,omitempty"`
+	TimeStamp          time.Time `json:"TimeStamp,omitempty"`
+	TaxCategoryID      string    `json:"TaxCategoryID,omitempty"`
+	TaxClassID         string    `json:"TaxClassID,omitempty"`
 }
 
 type TaxCategoryClasses []TaxCategoryClass
@@ -168,40 +168,40 @@ func (s *TaxCategoryClasses) UnmarshalJSON(data []byte) error {
 }
 
 type ItemPrice struct {
-	Amount    string `json:"amount,omitempty"`
-	UseTypeID string `json:"useTypeID,omitempty"`
-	UseType   string `json:"useType,omitempty"`
+	Amount    string `json:"Amount,omitempty"`
+	UseTypeID string `json:"UseTypeID,omitempty"`
+	UseType   string `json:"UseType,omitempty"`
 }
 type Prices struct {
 	ItemPrice []ItemPrice `json:"ItemPrice,omitempty"`
 }
 type Item struct {
-	ItemID           string    `json:"itemID,omitempty"`
-	SystemSku        string    `json:"systemSku,omitempty"`
-	DefaultCost      string    `json:"defaultCost,omitempty"`
-	AvgCost          string    `json:"avgCost,omitempty"`
-	Discountable     string    `json:"discountable,omitempty"`
-	Tax              string    `json:"tax,omitempty"`
-	Archived         string    `json:"archived,omitempty"`
-	ItemType         string    `json:"itemType,omitempty"`
-	Serialized       string    `json:"serialized,omitempty"`
-	Description      string    `json:"description,omitempty"`
-	ModelYear        string    `json:"modelYear,omitempty"`
-	Upc              string    `json:"upc,omitempty"`
-	Ean              string    `json:"ean,omitempty"`
-	CustomSku        string    `json:"customSku,omitempty"`
-	ManufacturerSku  string    `json:"manufacturerSku,omitempty"`
-	CreateTime       time.Time `json:"createTime,omitempty"`
-	TimeStamp        time.Time `json:"timeStamp,omitempty"`
-	CategoryID       string    `json:"categoryID,omitempty"`
-	TaxClassID       string    `json:"taxClassID,omitempty"`
-	DepartmentID     string    `json:"departmentID,omitempty"`
-	ItemMatrixID     string    `json:"itemMatrixID,omitempty"`
-	ItemAttributesID string    `json:"itemAttributesID,omitempty"`
-	ManufacturerID   string    `json:"manufacturerID,omitempty"`
-	NoteID           string    `json:"noteID,omitempty"`
-	SeasonID         string    `json:"seasonID,omitempty"`
-	DefaultVendorID  string    `json:"defaultVendorID,omitempty"`
+	ItemID           string    `json:"ItemID,omitempty"`
+	SystemSku        string    `json:"SystemSku,omitempty"`
+	DefaultCost      string    `json:"DefaultCost,omitempty"`
+	AvgCost          string    `json:"AvgCost,omitempty"`
+	Discountable     string    `json:"Discountable,omitempty"`
+	Tax              string    `json:"Tax,omitempty"`
+	Archived         string    `json:"Archived,omitempty"`
+	ItemType         string    `json:"ItemType,omitempty"`
+	Serialized       string    `json:"Serialized,omitempty"`
+	Description      string    `json:"Description,omitempty"`
+	ModelYear        string    `json:"ModelYear,omitempty"`
+	Upc              string    `json:"Upc,omitempty"`
+	Ean              string    `json:"Ean,omitempty"`
+	CustomSku        string    `json:"CustomSku,omitempty"`
+	ManufacturerSku  string    `json:"ManufacturerSku,omitempty"`
+	CreateTime       time.Time `json:"CreateTime,omitempty"`
+	TimeStamp        time.Time `json:"TimeStamp,omitempty"`
+	CategoryID       string    `json:"CategoryID,omitempty"`
+	TaxClassID       string    `json:"TaxClassID,omitempty"`
+	DepartmentID     string    `json:"DepartmentID,omitempty"`
+	ItemMatrixID     string    `json:"ItemMatrixID,omitempty"`
+	ItemAttributesID string    `json:"ItemAttributesID,omitempty"`
+	ManufacturerID   string    `json:"ManufacturerID,omitempty"`
+	NoteID           string    `json:"NoteID,omitempty"`
+	SeasonID         string    `json:"SeasonID,omitempty"`
+	DefaultVendorID  string    `json:"DefaultVendorID,omitempty"`
 	Prices           Prices    `json:"Prices,omitempty"`
 }
 type SaleLine struct {
@@ -260,53 +260,53 @@ func (s *SaleLines) UnmarshalJSON(data []byte) error {
 }
 
 type Tax struct {
-	ID        string `json:"id,omitempty"`
-	Name      string `json:"name,omitempty"`
-	Taxable   string `json:"taxable,omitempty"`
-	Rate      string `json:"rate,omitempty"`
-	Amount    string `json:"amount,omitempty"`
-	Taxname   string `json:"taxname,omitempty"`
-	Subtotal  string `json:"subtotal,omitempty"`
-	Rate2     string `json:"rate2,omitempty"`
-	Amount2   string `json:"amount2,omitempty"`
-	Taxname2  string `json:"taxname2,omitempty"`
-	Subtotal2 string `json:"subtotal2,omitempty"`
+	ID        string `json:"Id,omitempty"`
+	Name      string `json:"Name,omitempty"`
+	Taxable   string `json:"Taxable,omitempty"`
+	Rate      string `json:"Rate,omitempty"`
+	Amount    string `json:"Amount,omitempty"`
+	Taxname   string `json:"Taxname,omitempty"`
+	Subtotal  string `json:"Subtotal,omitempty"`
+	Rate2     string `json:"Rate2,omitempty"`
+	Amount2   string `json:"Amount2,omitempty"`
+	Taxname2  string `json:"Taxname2,omitempty"`
+	Subtotal2 string `json:"Subtotal2,omitempty"`
 }
 type TaxClassTotals struct {
 	Tax Tax `json:"Tax,omitempty"`
 }
 type ContactPhone struct {
-	Number  string `json:"number,omitempty"`
-	UseType string `json:"useType,omitempty"`
+	Number  string `json:"Number,omitempty"`
+	UseType string `json:"UseType,omitempty"`
 }
 type Phones struct {
 	ContactPhone ContactPhone `json:"ContactPhone,omitempty"`
 }
 type ContactEmail struct {
-	Address string `json:"address,omitempty"`
-	UseType string `json:"useType,omitempty"`
+	Address string `json:"Address,omitempty"`
+	UseType string `json:"UseType,omitempty"`
 }
 
 type ContactAddress struct {
-	Address1    string `json:"address1,omitempty"`
-	City        string `json:"city,omitempty"`
-	State       string `json:"state,omitempty"`
-	StateCode   string `json:"stateCode,omitempty"`
-	Zip         string `json:"zip,omitempty"`
-	Country     string `json:"country,omitempty"`
-	CountryCode string `json:"countryCode,omitempty"`
+	Address1    string `json:"Address1,omitempty"`
+	City        string `json:"City,omitempty"`
+	State       string `json:"State,omitempty"`
+	StateCode   string `json:"StateCode,omitempty"`
+	Zip         string `json:"Zip,omitempty"`
+	Country     string `json:"Country,omitempty"`
+	CountryCode string `json:"CountryCode,omitempty"`
 }
 
 type Emails struct {
 	ContactEmail ContactEmail `json:"ContactEmail,omitempty"`
 }
 type Contact struct {
-	ContactID string      `json:"contactID,omitempty"`
-	Custom    string      `json:"custom,omitempty"`
-	NoEmail   string      `json:"noEmail,omitempty"`
-	NoPhone   string      `json:"noPhone,omitempty"`
-	NoMail    string      `json:"noMail,omitempty"`
-	TimeStamp time.Time   `json:"timeStamp,omitempty"`
+	ContactID string      `json:"ContactID,omitempty"`
+	Custom    string      `json:"Custom,omitempty"`
+	NoEmail   string      `json:"NoEmail,omitempty"`
+	NoPhone   string      `json:"NoPhone,omitempty"`
+	NoMail    string      `json:"NoMail,omitempty"`
+	TimeStamp time.Time   `json:"TimeStamp,omitempty"`
 	Addresses interface{} `json:"Addresses,omitempty"`
 	Phones    interface{} `json:"Phones,omitempty"`
 	Emails    Emails      `json:"Emails,omitempty"`
@@ -314,25 +314,25 @@ type Contact struct {
 }
 
 type Customer struct {
-	CustomerID                string    `json:"customerID,omitempty"`
-	FirstName                 string    `json:"firstName,omitempty"`
-	LastName                  string    `json:"lastName,omitempty"`
-	Dob                       string    `json:"dob,omitempty"`
-	Archived                  string    `json:"archived,omitempty"`
-	Title                     string    `json:"title,omitempty"`
-	Company                   string    `json:"company,omitempty"`
-	CompanyRegistrationNumber string    `json:"companyRegistrationNumber,omitempty"`
-	VatNumber                 string    `json:"vatNumber,omitempty"`
-	CreateTime                time.Time `json:"createTime,omitempty"`
-	TimeStamp                 time.Time `json:"timeStamp,omitempty"`
-	ContactID                 string    `json:"contactID,omitempty"`
-	CreditAccountID           string    `json:"creditAccountID,omitempty"`
-	CustomerTypeID            string    `json:"customerTypeID,omitempty"`
-	DiscountID                string    `json:"discountID,omitempty"`
-	EmployeeID                string    `json:"employeeID,omitempty"`
-	NoteID                    string    `json:"noteID,omitempty"`
-	TaxCategoryID             string    `json:"taxCategoryID,omitempty"`
-	MeasurementID             string    `json:"measurementID,omitempty"`
+	CustomerID                string    `json:"CustomerID,omitempty"`
+	FirstName                 string    `json:"FirstName,omitempty"`
+	LastName                  string    `json:"LastName,omitempty"`
+	Dob                       string    `json:"Dob,omitempty"`
+	Archived                  string    `json:"Archived,omitempty"`
+	Title                     string    `json:"Title,omitempty"`
+	Company                   string    `json:"Company,omitempty"`
+	CompanyRegistrationNumber string    `json:"CompanyRegistrationNumber,omitempty"`
+	VatNumber                 string    `json:"VatNumber,omitempty"`
+	CreateTime                time.Time `json:"CreateTime,omitempty"`
+	TimeStamp                 time.Time `json:"TimeStamp,omitempty"`
+	ContactID                 string    `json:"ContactID,omitempty"`
+	CreditAccountID           string    `json:"CreditAccountID,omitempty"`
+	CustomerTypeID            string    `json:"CustomerTypeID,omitempty"`
+	DiscountID                string    `json:"CiscountID,omitempty"`
+	EmployeeID                string    `json:"EmployeeID,omitempty"`
+	NoteID                    string    `json:"NoteID,omitempty"`
+	TaxCategoryID             string    `json:"TaxCategoryID,omitempty"`
+	MeasurementID             string    `json:"MeasurementID,omitempty"`
 	Contact                   Contact   `json:"Contact,omitempty"`
 }
 
@@ -366,7 +366,7 @@ type SalePayment struct {
 	PaymentTypeID   string      `json:"paymentTypeID,omitempty"`
 	CcChargeID      string      `json:"ccChargeID,omitempty"`
 	RefPaymentID    string      `json:"refPaymentID,omitempty"`
-	RegisterID      string      `json:"registerID,omitempty"`
+	RegisterID      string      `json:"registerITD,omitempty"`
 	EmployeeID      string      `json:"employeeID,omitempty"`
 	CreditAccountID string      `json:"creditAccountID,omitempty"`
 	PaymentType     PaymentType `json:"PaymentType,omitempty"`
@@ -439,10 +439,8 @@ type Sale struct {
 		SaleLine SaleLines `json:"SaleLine,omitempty"`
 	} `json:"SaleLines,omitempty"`
 	TaxClassTotals TaxClassTotals `json:"TaxClassTotals,omitempty"`
-	Customer       struct {
-		Customer Customer `json:"Customer,omitempty"`
-	} `json:"Customer,omitempty"`
-	SalePayments struct {
+	Customer       Customer       `json:"Customer"`
+	SalePayments   struct {
 		SalePayment SalePayments `json:"salePayment,omitempty"`
 	} `json:"salePayments,omitempty"`
 }
