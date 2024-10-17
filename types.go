@@ -151,6 +151,22 @@ type TaxCategoryClasses struct {
 	TaxCategoryClass []TaxCategoryClass `json:"TaxCategoryClass,omitempty"`
 }
 
+func (s *TaxCategoryClasses) UnmarshalJSON(data []byte) error {
+	var single TaxCategoryClass
+	if err := json.Unmarshal(data, &single); err == nil {
+		s.TaxCategoryClass = []TaxCategoryClass{single}
+		return nil
+	}
+
+	var multiple []TaxCategoryClass
+	if err := json.Unmarshal(data, &multiple); err == nil {
+		s.TaxCategoryClass = multiple
+		return nil
+	}
+
+	return fmt.Errorf("failed to unmarshal TaxCategoryClasses (TaxCategoryClass array)")
+}
+
 type ItemPrice struct {
 	Amount    string `json:"amount,omitempty"`
 	UseTypeID string `json:"useTypeID,omitempty"`
@@ -340,8 +356,30 @@ func (s *Sales) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+type SalePayment struct {
+	SalePaymentID   string      `json:"salePaymentID,omitempty"`
+	Amount          string      `json:"amount,omitempty"`
+	CreateTime      time.Time   `json:"createTime,omitempty"`
+	Archived        string      `json:"archived,omitempty"`
+	RemoteReference string      `json:"remoteReference,omitempty"`
+	TipAmount       string      `json:"tipAmount,omitempty"`
+	PaymentID       string      `json:"paymentID,omitempty"`
+	SaleID          string      `json:"saleID,omitempty"`
+	PaymentTypeID   string      `json:"paymentTypeID,omitempty"`
+	CcChargeID      string      `json:"ccChargeID,omitempty"`
+	RefPaymentID    string      `json:"refPaymentID,omitempty"`
+	RegisterID      string      `json:"registerID,omitempty"`
+	EmployeeID      string      `json:"employeeID,omitempty"`
+	CreditAccountID string      `json:"creditAccountID,omitempty"`
+	PaymentType     PaymentType `json:"PaymentType,omitempty"`
+}
+
+type SalePayments struct {
+	SalePayment []SalePayment `json:"SalePayment,omitempty"`
+}
+
 type Sale struct {
-	SaleID                string         `json:"saleID,omitempty"`
+	SaleID                StringInt      `json:"saleID,omitempty"`
 	TimeStamp             time.Time      `json:"timeStamp,omitempty"`
 	DiscountPercent       string         `json:"discountPercent,omitempty"`
 	Completed             string         `json:"completed,omitempty"`
@@ -388,4 +426,5 @@ type Sale struct {
 	SaleLines             SaleLines      `json:"SaleLines,omitempty"`
 	TaxClassTotals        TaxClassTotals `json:"TaxClassTotals,omitempty"`
 	Customer              Customer       `json:"Customer,omitempty"`
+	SalePayments          SalePayments   `json:"salePayments,omitempty"`
 }
