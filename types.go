@@ -251,6 +251,7 @@ type SaleLine struct {
 	ParentSaleLineID        StringInt   `json:"parentSaleLineID,omitempty"`
 	ShopID                  StringInt   `json:"shopID,omitempty"`
 	SaleID                  StringInt   `json:"saleID,omitempty"`
+	ItemFeeID               StringInt   `json:"itemFeeID,omitempty"`
 	TaxClass                TaxClass    `json:"TaxClass,omitempty"`
 	Discount                Discount    `json:"Discount,omitempty"`
 	Item                    Item        `json:"Item,omitempty"`
