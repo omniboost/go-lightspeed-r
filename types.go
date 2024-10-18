@@ -235,6 +235,7 @@ type SaleLine struct {
 	IsSpecialOrder          string      `json:"isSpecialOrder,omitempty"`
 	DisplayableSubtotal     StringFloat `json:"displayableSubtotal,omitempty"`
 	DisplayableUnitPrice    StringFloat `json:"displayableUnitPrice,omitempty"`
+	LineType                string      `json:"lineType,omitempty"`
 	CalcLineDiscount        StringFloat `json:"calcLineDiscount,omitempty"`
 	CalcTransactionDiscount StringFloat `json:"calcTransactionDiscount,omitempty"`
 	CalcTotal               StringFloat `json:"calcTotal,omitempty"`
@@ -420,6 +421,24 @@ func (s *SalePayments) UnmarshalJSON(data []byte) error {
 
 	*s = ss
 	return nil
+}
+
+type ItemFeeResp struct {
+	Attributes Attributes `json:"@attributes"`
+	ItemFee    ItemFee    `json:"ItemFee"`
+}
+
+type ItemFee struct {
+	ItemFeeID         StringInt   `json:"itemFeeID,omitempty"`
+	Name              string      `json:"name,omitempty"`
+	CalculationMethod string      `json:"calculationMethod,omitempty"`
+	FeeValue          StringFloat `json:"feeValue,omitempty"`
+	Taxable           string      `json:"taxable,omitempty"`
+	Discountable      string      `json:"discountable,omitempty"`
+	NonRefundable     string      `json:"nonRefundable,omitempty"`
+	Archived          string      `json:"archived,omitempty"`
+	CreateTime        time.Time   `json:"createTime,omitempty"`
+	Timestamp         time.Time   `json:"timestamp,omitempty"`
 }
 
 type Sale struct {
