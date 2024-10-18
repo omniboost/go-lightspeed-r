@@ -334,6 +334,8 @@ type ContactAddress struct {
 type Emails struct {
 	ContactEmail ContactEmail `json:"ContactEmail,omitempty"`
 }
+
+// Changed email to interface because it can be a string as well as an object
 type Contact struct {
 	ContactID StringInt   `json:"contactID,omitempty"`
 	Custom    string      `json:"custom,omitempty"`
@@ -343,7 +345,7 @@ type Contact struct {
 	TimeStamp time.Time   `json:"timeStamp,omitempty"`
 	Addresses interface{} `json:"addresses,omitempty"`
 	Phones    interface{} `json:"phones,omitempty"`
-	Emails    Emails      `json:"emails,omitempty"`
+	Emails    interface{} `json:"emails,omitempty"`
 	Websites  string      `json:"websites,omitempty"`
 }
 
