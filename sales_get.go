@@ -1,7 +1,6 @@
 package lightspeed_r
 
 import (
-	"fmt"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -53,8 +52,6 @@ func (p SalesGetQueryParams) ToURLValues() (url.Values, error) {
 	encoder.RegisterEncoder(DateTime{}, utils.EncodeSchemaMarshaler)
 	encoder.RegisterEncoder(LoadRelations{}, utils.EncodeSchemaMarshaler)
 	params := url.Values{}
-
-	fmt.Println(p.LoadRelations)
 
 	err := encoder.Encode(p, params)
 	if err != nil {

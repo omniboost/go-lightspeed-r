@@ -55,13 +55,13 @@ type CategoriesResp struct {
 }
 
 type Category struct {
-	CategoryID   string    `json:"categoryID"`
+	CategoryID   StringInt `json:"categoryID"`
 	Name         string    `json:"name"`
 	NodeDepth    string    `json:"nodeDepth"`
 	FullPathName string    `json:"fullPathName"`
-	LeftNode     string    `json:"leftNode"`
-	RightNode    string    `json:"rightNode"`
-	ParentID     string    `json:"parentID"`
+	LeftNode     StringInt `json:"leftNode"`
+	RightNode    StringInt `json:"rightNode"`
+	ParentID     StringInt `json:"parentID"`
 	CreateTime   time.Time `json:"createTime"`
 	TimeStamp    time.Time `json:"timeStamp"`
 }
