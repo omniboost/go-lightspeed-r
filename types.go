@@ -175,6 +175,18 @@ type ItemPrice struct {
 type Prices struct {
 	ItemPrice []ItemPrice `json:"ItemPrice,omitempty"`
 }
+type Discount struct {
+	DiscountID      StringInt   `json:"discountID,omitempty"`
+	Name            string      `json:"name,omitempty"`
+	DiscountAmount  StringFloat `json:"discountAmount,omitempty"`
+	DiscountPercent StringFloat `json:"discountPercent,omitempty"`
+	RequireCustomer string      `json:"requireCustomer,omitempty"`
+	Archived        string      `json:"archived,omitempty"`
+	SourceID        StringInt   `json:"sourceID,omitempty"`
+	CreateTime      time.Time   `json:"createTime,omitempty"`
+	TimeStamp       time.Time   `json:"timeStamp,omitempty"`
+}
+
 type Item struct {
 	ItemID           StringInt   `json:"itemID,omitempty"`
 	SystemSku        StringInt   `json:"systemSku,omitempty"`
@@ -239,6 +251,7 @@ type SaleLine struct {
 	ShopID                  StringInt   `json:"shopID,omitempty"`
 	SaleID                  StringInt   `json:"saleID,omitempty"`
 	TaxClass                TaxClass    `json:"TaxClass,omitempty"`
+	Discount                Discount    `json:"Discount,omitempty"`
 	Item                    Item        `json:"Item,omitempty"`
 }
 type SaleLines []SaleLine
