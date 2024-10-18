@@ -260,20 +260,39 @@ func (s *SaleLines) UnmarshalJSON(data []byte) error {
 }
 
 type Tax struct {
-	ID        string `json:"id,omitempty"`
-	Name      string `json:"name,omitempty"`
-	Taxable   string `json:"taxable,omitempty"`
-	Rate      string `json:"rate,omitempty"`
-	Amount    string `json:"amount,omitempty"`
-	Taxname   string `json:"taxname,omitempty"`
-	Subtotal  string `json:"subtotal,omitempty"`
-	Rate2     string `json:"rate2,omitempty"`
-	Amount2   string `json:"amount2,omitempty"`
-	Taxname2  string `json:"taxname2,omitempty"`
-	Subtotal2 string `json:"subtotal2,omitempty"`
+	ID        StringInt   `json:"id,omitempty"`
+	Name      string      `json:"name,omitempty"`
+	Taxable   StringFloat `json:"taxable,omitempty"`
+	Rate      StringInt   `json:"rate,omitempty"`
+	Amount    StringFloat `json:"amount,omitempty"`
+	Taxname   string      `json:"taxname,omitempty"`
+	Subtotal  StringFloat `json:"subtotal,omitempty"`
+	Rate2     StringInt   `json:"rate2,omitempty"`
+	Amount2   StringFloat `json:"amount2,omitempty"`
+	Taxname2  string      `json:"taxname2,omitempty"`
+	Subtotal2 StringFloat `json:"subtotal2,omitempty"`
 }
+
+type Taxes []Tax
+
+func (s *Taxes) UnmarshalJSON(data []byte) error {
+	// if the json doesn't start with an '[', force it to be an array
+	if data[0] != '[' {
+		data = []byte("[" + string(data) + "]")
+	}
+
+	ss := []Tax{}
+	err := json.Unmarshal(data, &ss)
+	if err != nil {
+		return err
+	}
+
+	*s = ss
+	return nil
+}
+
 type TaxClassTotals struct {
-	Tax Tax `json:"Tax,omitempty"`
+	Tax Taxes `json:"Tax,omitempty"`
 }
 type ContactPhone struct {
 	Number  string `json:"number,omitempty"`
