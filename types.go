@@ -425,7 +425,7 @@ func (s *SalePayments) UnmarshalJSON(data []byte) error {
 
 type ItemFeeResp struct {
 	Attributes Attributes `json:"@attributes"`
-	ItemFee    ItemFee    `json:"ItemFee"`
+	ItemFee    ItemFees   `json:"ItemFee"`
 }
 
 type ItemFee struct {
@@ -439,6 +439,24 @@ type ItemFee struct {
 	Archived          string      `json:"archived,omitempty"`
 	CreateTime        time.Time   `json:"createTime,omitempty"`
 	Timestamp         time.Time   `json:"timestamp,omitempty"`
+}
+
+type ItemFees []ItemFee
+
+func (s *ItemFees) UnmarshalJSON(data []byte) error {
+	// if the json doesn't start with an '[', force it to be an array
+	if data[0] != '[' {
+		data = []byte("[" + string(data) + "]")
+	}
+
+	ss := []ItemFee{}
+	err := json.Unmarshal(data, &ss)
+	if err != nil {
+		return err
+	}
+
+	*s = ss
+	return nil
 }
 
 type Sale struct {
